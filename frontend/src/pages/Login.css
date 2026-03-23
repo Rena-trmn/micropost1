@@ -1,0 +1,44 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 320px;
+  margin: 100px auto;
+  padding: 30px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input {
+  padding: 8px;
+  font-size: 14px;
+} 
+
+button {
+  padding: 10px;
+  background-color: #fd838f;
+  color: white;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fd5c6e;
+  }
+}
+
+p {
+  text-align: center;
+  font-size: 14px;
+}
+
+p span {
+  color: #fd5c6e;
+  cursor: pointer;
+  font-size: 12px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

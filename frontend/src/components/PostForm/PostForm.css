@@ -1,0 +1,68 @@
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: 20px;
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  margin-left: 12px;
+  border-radius: 50%;
+}
+
+.name {
+  margin: 0;
+  font-size: 20px;
+}
+
+.email {
+  margin-top: 10px;
+  font-size: 16px;
+  color: rgb(80, 80, 80);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 15px 20px 15px;
+}
+
+.input-area {
+  width: 40%;
+  height: 200px;
+  resize: none;
+  padding: 8px;
+  margin: 13px ;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  letter-spacing: 2px;
+  line-height: 1.6;
+}
+
+.input-area:focus {
+  border-color: #f13f66;
+}
+
+.post-btn {
+  width: 40%;
+  margin-left: 20px;
+  border-radius: 8px;
+  padding: 6px;
+  font-size:14px;
+  color: #565656;
+  letter-spacing: 10px;
+  font-weight: 550;
+  background-color: #fcc9c9;
+  border: none;
+  cursor: pointer;
+  
+}
+
+.post-btn:hover {
+  background-color: #fab5b5;
+}
