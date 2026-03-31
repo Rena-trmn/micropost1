@@ -34,6 +34,11 @@ const Login = () => {
 
       const data = await res.json();
 
+      if (!res.ok){
+        alert(data.message || "ログインに失敗しました");
+        return;
+      }
+
       if (mode === "login") {
         setUserInfo({
           id: data.user_id,
@@ -41,7 +46,6 @@ const Login = () => {
           email:data.email,
           token: data.token,
         });
-
         navigate("/main");
       } else {
         alert("アカウント作成成功！");

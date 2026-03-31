@@ -41,8 +41,6 @@ const Main = () => {
     token: userInfo.token,
   };
 
-  console.log(user)
-
   return (
     <div>
       <Header/>
