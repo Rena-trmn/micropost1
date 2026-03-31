@@ -3,11 +3,11 @@ import {
   NotFoundException,
   ForbiddenException,
 } from '@nestjs/common';
-import { createHash } from 'crypto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Equal, MoreThan } from 'typeorm';
 import { User } from './user.entity';
 import { Auth } from '../auth/auth.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -47,7 +47,7 @@ export class UserService {
   }
 
   async createUser(name: string, email: string, password: string) {
-    const hash = createHash('md5').update(password).digest('hex');
+    const hash = await bcrypt.hash(password, 10);
 
     const user = this.userRepository.create({
       name,

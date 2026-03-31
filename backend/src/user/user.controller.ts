@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Query, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Headers, Body } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -17,8 +17,9 @@ export class UserController {
   @Get(':id')
   async getUser(
     @Param('id') id: string,
-    @Query('token') token: string,
+    @Headers('authorization') authHeader: string,
   ) {
+    const token = authHeader?.replace('Bearer', '');
     return this.userService.getUser(token, Number(id));
   }
 }

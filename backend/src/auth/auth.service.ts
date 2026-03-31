@@ -1,10 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException,BadREquestException, ConflictException  } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Equal } from 'typeorm';
 import { Auth } from './auth.entity';
 import { User } from '../user/user.entity';
-import * as crypto from 'crypto';
-import { EntityMetadataValidator } from 'typeorm/metadata-builder/EntityMetadataValidator.js';
+import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class AuthService {
@@ -17,21 +16,23 @@ export class AuthService {
   ) {}
 
   async getAuth(email: string, password: string) {
-    if (!password || !email) {
-      throw new UnauthorizedException();
+    if (!email || !password) {
+      throw new BadREquestException("入力が不足しています");
     }
-
-    const hash = crypto.createHash('md5').update(password).digest('hex');
 
     const user = await this.userRepository.findOne({
       where: {
         email: Equal(email),
-        hash: Equal(hash),
       },
     });
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("メールアドレスまたはパスワードが違います");
+    }
+
+    const isMatch = await bcrypt.compare(password, user.hash);
+    if(!isMatch) {
+      throw new UnauthorizedException("メールアドレスまたはパスワードが違います");
     }
 
     const expire = new Date();
@@ -72,21 +73,19 @@ export class AuthService {
   }
   async signup(name: string, email: string, password: string) {
     if (!name || !email || !password) {
-      throw new Error("入力が不足しています");
+      throw new BadREquestException("入力が不足しています");
     }
 
-    // パスワードをハッシュ化
-    const hash = crypto.createHash('md5').update(password).digest('hex');
-
-    // 既に同じユーザーがいるかチェック
     const existingUser = await this.userRepository.findOne({
-      where: { name: Equal(name) },
+      where: { email: Equal(email)},
     });
-
     if (existingUser) {
-      throw new Error("ユーザーは既に存在します");
+      throw new ConflictException("すでに登録済みのユーザーです");
     }
 
+    const hash = await bcrypt.hash(password, 10);
+
+    
     // ユーザー作成
     const user = this.userRepository.create({
       name,
