@@ -2,7 +2,11 @@ const BASE_URL = "http://localhost:3000";
 
 //投稿一覧取得
 export const getPosts = async (token) => {
-  const res = await fetch(`${BASE_URL}/post?token=${token}`);
+  const res = await fetch(`${BASE_URL}/post`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!res.ok) {
     throw new Error("取得に失敗しました");
@@ -23,7 +27,7 @@ export const getPosts = async (token) => {
 
 //投稿作成
 export const createPost = async (message, user) => {
-  const res = await fetch(`${BASE_URL}/post?token=${user.token}`, {
+  const res = await fetch(`${BASE_URL}/post`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
